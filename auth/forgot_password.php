@@ -6,8 +6,7 @@ use PHPMailer\PHPMailer\Exception;
 
 require_once "../vendor/autoload.php";
 
-$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
-$dotenv->load();
+
 
 $message = "";
 $status  = "";
@@ -65,12 +64,12 @@ if (isset($_POST['submit'])) {
             $mail = new PHPMailer(true);
             try {
                 $mail->isSMTP();
-                $mail->Host       = $_ENV['SMTP_HOST'];
+                $mail->Host = getenv('SMTP_HOST');
                 $mail->SMTPAuth   = true;
-                $mail->Username   = $_ENV['SMTP_USER'];
-                $mail->Password   = $_ENV['SMTP_PASS'];
+                $mail->Username = getenv('SMTP_USER');
+                $mail->Password = getenv('SMTP_PASS');
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-                $mail->Port       = (int) $_ENV['SMTP_PORT'];
+                $mail->Port = getenv('SMTP_PORT');
 
                 $mail->setFrom($_ENV['SMTP_FROM'], $_ENV['SMTP_FROM_NAME']);
                 $mail->addAddress($email, $name);
@@ -140,11 +139,16 @@ if (isset($_POST['submit'])) {
                 // Plain text fallback
                 $mail->AltBody = "Hi {$name},\n\nReset your password here: {$resetLink}\n\nThis link expires in 30 minutes.\n\nIf you didn't request this, ignore this email.";
 
-                $mail->send();
+                if ($mail->send()) {
+                    echo "EMAIL SENT";
+                    exit;
+                } else {
+                    echo $mail->ErrorInfo;
+                    exit;
+                }
 
             } catch (Exception $e) {
-                // Email failed — log it but don't show error to user (security)
-                error_log("BDBot mailer error: " . $mail->ErrorInfo);
+                die("Mailer Error: " . $mail->ErrorInfo);
             }
         }
     }
