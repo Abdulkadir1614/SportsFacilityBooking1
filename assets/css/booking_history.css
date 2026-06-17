@@ -1,0 +1,349 @@
+:root {
+  --bg: #080c10; 
+  --surface: #0e1520; 
+  --card: #121b28;
+  --border: rgba(255,255,255,0.07); 
+  --accent: #00e5a0;
+  --text: #e8eef8; 
+  --muted: #6b7fa0;
+  
+  /* Additional modern color tokens for payments/badges */
+  --success: #00e5a0;
+  --warning: #f0c060;
+  --danger: #ff6b6b;
+  --info: #00aaff;
+}
+
+body {
+  background: var(--bg); 
+  color: var(--text);
+  font-family: 'Outfit', sans-serif; 
+  margin: 0;
+}
+
+/* ── PAGE ── */
+.page {
+  max-width: 1000px; 
+  margin: auto;
+  padding: 50px 24px 80px;
+}
+
+/* ── HEADER ── */
+.page-header {
+  display: flex; 
+  align-items: center; 
+  gap: 16px;
+  margin-bottom: 40px;
+  animation: fade-up .5s both;
+}
+.page-icon {
+  width: 50px; 
+  height: 50px; 
+  border-radius: 14px; 
+  flex-shrink: 0;
+  background: rgba(0,229,160,.12); 
+  border: 1px solid rgba(0,229,160,.2);
+  color: var(--accent); 
+  font-size: 22px;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+}
+.page-label {
+  display: block; 
+  font-size: 11px; 
+  font-weight: 700;
+  letter-spacing: 3px; 
+  text-transform: uppercase;
+  color: var(--accent); 
+  margin-bottom: 4px;
+}
+.page-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(32px, 5vw, 48px);
+  color: #fff; 
+  line-height: 1; 
+  letter-spacing: 1px; 
+  margin: 0;
+}
+.page-title span { color: var(--accent); }
+
+/* ── TABLE WRAPPER ── */
+.table-wrap {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px; 
+  overflow: hidden;
+  animation: fade-up .5s .1s both;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* ── TABLE ── */
+.history-table {
+  width: 100%; 
+  border-collapse: collapse; 
+  min-width: 800px;
+}
+
+.history-table thead tr {
+  background: rgba(255,255,255,.02);
+  border-bottom: 1px solid var(--border);
+}
+.history-table th {
+  padding: 16px 20px; 
+  text-align: left;
+  font-size: 11px; 
+  font-weight: 700; 
+  letter-spacing: 2px;
+  text-transform: uppercase; 
+  color: var(--muted);
+}
+
+.history-table tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background .2s, transform .2s;
+}
+.history-table tbody tr:last-child { border-bottom: none; }
+.history-table tbody tr:hover { 
+  background: rgba(255,255,255,.015); 
+}
+
+.history-table td {
+  padding: 18px 20px; 
+  font-size: 14px; 
+  color: var(--text);
+  vertical-align: middle;
+}
+
+/* Cell helpers */
+.facility-name { font-weight: 600; color: #fff; font-size: 15px; }
+.amount-cell { font-weight: 600; color: #fff; }
+.hours-cell { color: var(--text); font-weight: 500; }
+
+.date-cell, .time-cell {
+  display: inline-flex; 
+  align-items: center; 
+  gap: 8px; 
+  color: #cbd5e1; 
+  font-size: 13.5px;
+}
+.date-cell i, .time-cell i { color: var(--accent); font-size: 14px; }
+
+.time-cell {
+    display: inline-flex; 
+    align-items: center; 
+    gap: 8px; 
+    color: #cbd5e1; 
+    font-size: 13.5px;
+    white-space: nowrap; 
+}
+
+/* ── BOOKING STATUS BADGES ── */
+.badge {
+  display: inline-flex; 
+  align-items: center;
+  font-size: 11px; 
+  font-weight: 700; 
+  letter-spacing: .8px;
+  padding: 6px 12px; 
+  border-radius: 8px;
+  text-transform: uppercase;
+}
+
+.badge-approved, .badge-confirmed, .badge-paid, .badge-verified { 
+  background: rgba(0,229,160,.1);  border: 1px solid rgba(0,229,160,.25);  color: var(--success); 
+}
+.badge-pending { 
+  background: rgba(240,192,96,.1);  border: 1px solid rgba(240,192,96,.25);  color: var(--warning); 
+}
+.badge-cancelled, .badge-rejected, .badge-unpaid { 
+  background: rgba(255,107,107,.1); border: 1px solid rgba(255,107,107,.25); color: var(--danger); 
+}
+
+/* ── COMPLEX PAYMENT COMPONENT ── */
+.pay-status-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 160px;
+}
+.pay-status-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.pay-status-full .pay-status-label { color: var(--success); }
+.pay-status-partial .pay-status-label { color: var(--warning); }
+.pay-status-pending .pay-status-label { color: var(--info); }
+.pay-status-unpaid .pay-status-label { color: var(--danger); }
+
+/* Progress bar styling */
+.pay-progress-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.pay-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--warning), #ff9f43);
+  border-radius: 99px;
+}
+.pay-remaining {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* ── ACTION COLUMN BUTTONS & CHIPS ── */
+.action-col {
+  display: flex;
+  align-items: center;
+}
+
+/* Universal Button Base */
+.btn-cancel, .btn-pay-now {
+  display: inline-flex; 
+  align-items: center; 
+  gap: 8px;
+  font-size: 12px; 
+  font-weight: 600;
+  padding: 8px 16px; 
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all .25s ease;
+  cursor: pointer;
+}
+
+/* Pay Now Button  */
+.btn-pay-now {
+  background: rgba(0, 229, 160, 0.1);
+  border: 1px solid rgba(0, 229, 160, 0.3);
+  color: var(--accent);
+}
+.btn-pay-now:hover {
+  background: var(--accent);
+  color: #080c10;
+  box-shadow: 0 0 15px rgba(0, 229, 160, 0.3);
+}
+
+/* Complete Remaining Partial Payment Button Variant */
+.btn-pay-remaining {
+  background: rgba(240, 192, 96, 0.1);
+  border: 1px solid rgba(240, 192, 96, 0.3);
+  color: var(--warning);
+}
+.btn-pay-remaining:hover {
+  background: var(--warning);
+  color: #080c10;
+  box-shadow: 0 0 15px rgba(240, 192, 96, 0.3);
+}
+
+/* Cancel Button */
+.btn-cancel {
+  background: rgba(255,107,107,.08);
+  border: 1px solid rgba(255,107,107,.2);
+  color: #ff6b6b;
+}
+.btn-cancel:hover { 
+  background: rgba(255,107,107,.2); 
+  border-color: rgba(255,107,107,.4); 
+}
+
+/* Non-actionable Passive Chips */
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--muted);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+.chip-pending {
+  color: var(--info);
+  background: rgba(0, 170, 255, 0.05);
+  border-color: rgba(0, 170, 255, 0.15);
+}
+.chip-done {
+  color: var(--muted);
+  opacity: 0.8;
+}
+
+.no-action { color: var(--muted); font-size: 16px; padding-left: 10px; }
+
+/* ── EMPTY STATE ── */
+.empty-state {
+  text-align: center; 
+  padding: 70px 20px;
+  color: var(--muted);
+}
+.empty-state i { font-size: 46px; display: block; margin-bottom: 14px; opacity: .25; }
+.empty-state h3 { font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.empty-state p  { font-size: 14px; margin-bottom: 24px; }
+
+.btn-browse {
+  display: inline-flex; 
+  align-items: center; 
+  gap: 8px;
+  background: var(--accent); 
+  color: #000;
+  font-weight: 700; 
+  font-size: 14px;
+  padding: 10px 24px; 
+  border-radius: 10px; 
+  text-decoration: none;
+  transition: box-shadow .25s;
+}
+.btn-browse:hover { box-shadow: 0 0 20px rgba(0,229,160,.4); color: #000; }
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(15px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE TABLE CONFIGURATIONS ── */
+@media (max-width: 992px) {
+  .table-wrap { border-radius: 16px; }
+  .table-responsive { overflow-x: auto; }
+}
+
+@media (max-width: 768px) {
+  .page { padding: 30px 16px 60px; }
+  .history-table { min-width: unset; }
+  .history-table thead { display: none; }
+  .history-table, .history-table tbody,
+  .history-table tr, .history-table td { display: block; width: 100%; box-sizing: border-box; }
+
+  .history-table tr {
+    background: rgba(255, 255, 255, 0.01);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 4px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+  }
+  .history-table td {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    padding: 10px 16px; 
+    border-bottom: none;
+    text-align: right;
+  }
+  .history-table td::before {
+    content: attr(data-label);
+    font-size: 11px; 
+    font-weight: 700; 
+    letter-spacing: 1px;
+    text-transform: uppercase; 
+    color: var(--muted);
+    text-align: left;
+  }
+  .pay-status-wrap { align-items: flex-end; max-width: unset; }
+}
