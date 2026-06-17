@@ -6,8 +6,7 @@ use PHPMailer\PHPMailer\Exception;
 
 require_once "../vendor/autoload.php";
 
-$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
-$dotenv->load();
+
 
 $message = "";
 $status  = "";
@@ -65,12 +64,12 @@ if (isset($_POST['submit'])) {
             $mail = new PHPMailer(true);
             try {
                 $mail->isSMTP();
-                $mail->Host       = $_ENV['SMTP_HOST'];
+                $mail->Host = getenv('SMTP_HOST');
                 $mail->SMTPAuth   = true;
-                $mail->Username   = $_ENV['SMTP_USER'];
-                $mail->Password   = $_ENV['SMTP_PASS'];
+                $mail->Username = getenv('SMTP_USER');
+                $mail->Password = getenv('SMTP_PASS');
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-                $mail->Port       = (int) $_ENV['SMTP_PORT'];
+                $mail->Port = getenv('SMTP_PORT');
 
                 $mail->setFrom($_ENV['SMTP_FROM'], $_ENV['SMTP_FROM_NAME']);
                 $mail->addAddress($email, $name);
