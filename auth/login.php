@@ -30,7 +30,8 @@ if (isset($_POST['login'])) {
                 /* Store session */
                 $_SESSION['user_id'] = $row['user_id'];
                 $_SESSION['name']    = $row['name'];
-                $_SESSION['email']   = $row['email'];
+                $email = $_POST['email'] ?? '';
+                $password = $_POST['password'] ?? '';
                 $_SESSION['role']    = $row['role'];
                 $_SESSION['profile_pic'] = $row['profile_pic'];
 
