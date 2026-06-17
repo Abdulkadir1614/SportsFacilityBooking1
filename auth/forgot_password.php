@@ -139,11 +139,16 @@ if (isset($_POST['submit'])) {
                 // Plain text fallback
                 $mail->AltBody = "Hi {$name},\n\nReset your password here: {$resetLink}\n\nThis link expires in 30 minutes.\n\nIf you didn't request this, ignore this email.";
 
-                $mail->send();
+                if ($mail->send()) {
+                    echo "EMAIL SENT";
+                    exit;
+                } else {
+                    echo $mail->ErrorInfo;
+                    exit;
+                }
 
             } catch (Exception $e) {
-                // Email failed — log it but don't show error to user (security)
-                error_log("BDBot mailer error: " . $mail->ErrorInfo);
+                die("Mailer Error: " . $mail->ErrorInfo);
             }
         }
     }
